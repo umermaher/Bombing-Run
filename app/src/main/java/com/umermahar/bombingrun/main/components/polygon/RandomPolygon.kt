@@ -1,4 +1,4 @@
-package com.umermahar.bombingrun.main.polygon
+package com.umermahar.bombingrun.main.components.polygon
 
 import android.content.Context
 import android.graphics.Bitmap

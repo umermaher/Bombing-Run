@@ -41,7 +41,7 @@ import com.umermahar.bombingrun.R
 import com.umermahar.bombingrun.main.components.BombingRunTableSheetContent
 import com.umermahar.bombingrun.main.components.CustomBottomSheetScaffold
 import com.umermahar.bombingrun.main.components.SelectBombResultBottomSheet
-import com.umermahar.bombingrun.main.polygon.RandomPolygonWithDimensions
+import com.umermahar.bombingrun.main.components.polygon.RandomPolygonWithDimensions
 import com.umermahar.bombingrun.utils.GeneralBottomSheet
 import com.umermahar.bombingrun.utils.OptionSheetCard
 import kotlinx.coroutines.launch
