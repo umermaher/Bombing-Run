@@ -109,7 +109,7 @@ fun RandomPolygonWithDimensions(
         if(bombedPointCount < bombedPoints.size) {
             startPlaneAnimation = true
             bombedPointCount = bombedPoints.size
-            delay(3000)
+            delay(2000)
             startPlaneAnimation = false
         } else {
             bombedPointCount = bombedPoints.size
