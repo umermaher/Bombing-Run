@@ -20,20 +20,24 @@ import androidx.compose.ui.unit.dp
 import com.umermahar.bombingrun.R
 import com.umermahar.bombingrun.main.Bomb
 import com.umermahar.bombingrun.main.BombResult
+import com.umermahar.bombingrun.main.BombResultOption
 import com.umermahar.bombingrun.main.MainEvent
 import com.umermahar.bombingrun.utils.GeneralBottomSheet
 import com.umermahar.bombingrun.utils.OptionSheetCard
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SelectBombResultBottomSheet(
     selectedBomb: Bomb,
+    bombResultOptions: List<BombResultOption>,
+    scope: CoroutineScope = rememberCoroutineScope(),
     onEvent: (MainEvent) -> Unit
 ) {
 
     val selectBombResultSheetState = rememberModalBottomSheetState()
-    val scope = rememberCoroutineScope()
 
     GeneralBottomSheet(
         sheetState = selectBombResultSheetState,
@@ -47,71 +51,64 @@ fun SelectBombResultBottomSheet(
             Row(
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Card(
-                    modifier = Modifier
+                ValueCard(
+                    Modifier
                         .weight(1f)
                         .padding(vertical = 12.dp),
-                ) {
-                    Row(
-                        modifier = Modifier.padding(16.dp)
-                    ) {
-                        Text(
-                            modifier = Modifier.weight(1f),
-                            text = stringResource(id = R.string.x),
-                            fontWeight = FontWeight.Bold
-                        )
-                        Text(
-                            text = String.format("%.2f", selectedBomb.offset.x)
-                        )
-                    }
-                }
+                    text1 = stringResource(id = R.string.x),
+                    text2 = String.format(Locale.getDefault(),"%.2f", selectedBomb.offset.x)
+                )
                 
                 Spacer(modifier = Modifier.size(16.dp))
 
-                Card(
-                    modifier = Modifier
+                ValueCard(
+                    Modifier
                         .weight(1f)
                         .padding(vertical = 12.dp),
-                    shape = RoundedCornerShape(16.dp), // Set the corner radius here
+                    text1 = stringResource(id = R.string.y),
+                    text2 = String.format(Locale.getDefault(),"%.2f", selectedBomb.offset.y)
+                )
+            }
+
+            bombResultOptions.forEach { option ->
+                OptionSheetCard(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 4.dp),
+                    txtRes = option.textRes,
                 ) {
-                    Row(
-                        modifier = Modifier.padding(16.dp)
-                    ) {
-                        Text(
-                            modifier = Modifier.weight(1f),
-                            text = stringResource(id = R.string.y),
-                            fontWeight = FontWeight.Bold
-                        )
-                        Text(
-                            text = String.format("%.2f", selectedBomb.offset.y)
-                        )
+                    scope.launch {
+                        selectBombResultSheetState.hide()
+                        onEvent(MainEvent.SelectedBombResult(option.bombResult))
                     }
                 }
             }
+        }
+    }
+}
 
-            OptionSheetCard(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 4.dp),
-                txtRes = R.string.hit,
-            ) {
-                scope.launch {
-                    selectBombResultSheetState.hide()
-                    onEvent(MainEvent.SelectedBombResult(BombResult.HIT))
-                }
-            }
 
-            OptionSheetCard(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 4.dp),
-                txtRes = R.string.miss,
-            ) {
-                scope.launch {
-                    selectBombResultSheetState.hide()
-                    onEvent(MainEvent.SelectedBombResult(BombResult.MISS))
-                }
-            }
+@Composable
+fun ValueCard(
+    modifier: Modifier = Modifier,
+    text1: String,
+    text2: String
+) {
+    Card(
+        modifier = modifier,
+        shape = RoundedCornerShape(16.dp), // Set the corner radius here
+    ) {
+        Row(
+            modifier = Modifier.padding(16.dp)
+        ) {
+            Text(
+                modifier = Modifier.weight(1f),
+                text = text1,
+                fontWeight = FontWeight.Bold
+            )
+            Text(
+                text = text2
+            )
         }
     }
 }

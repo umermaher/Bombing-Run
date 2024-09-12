@@ -11,4 +11,7 @@
     <string name="simulated_bombing_run">Simulated Bombing Run</string>
     <string name="select_result">Select Result</string>
     <string name="score">Score</string>
+    <string name="normal">Normal</string>
+    <string name="hard">Hard</string>
+    <string name="level">Level</string>
 </resources>

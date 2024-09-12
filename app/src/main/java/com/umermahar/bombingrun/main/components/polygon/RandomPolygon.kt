@@ -122,7 +122,7 @@ fun RandomPolygonWithDimensions(
             x = if(startPlaneAnimation) {
                 animatedXOffsetOfPlan
             } else -500f,
-            y = (bombedPoints.lastOrNull()?.offset?.y?:0f) - 30f
+            y = (bombedPoints.lastOrNull()?.offset?.y?:0f) - (PLAN_SIZE / 2)
         )
     }
 
@@ -132,10 +132,8 @@ fun RandomPolygonWithDimensions(
         }
     }
 
-    // Parameters for explosion
-    val numParticles = 20
     val explosionRadius by animateDpAsState(
-        targetValue = if (explode) 30.dp else 0.dp,
+        targetValue = if (explode) 20.dp else 0.dp,
         animationSpec = tween(durationMillis = 500, easing = FastOutSlowInEasing), label = ""
     )
 
@@ -191,7 +189,7 @@ fun RandomPolygonWithDimensions(
                 if (explode && index == bombedPoints.lastIndex) {
                     drawExplosionParticles(
                         size = explosionRadius.toPx(),
-                        numParticles = numParticles,
+                        numParticles = 20,
                         center = bombedPoint.offset
                     )
                 }
@@ -199,7 +197,7 @@ fun RandomPolygonWithDimensions(
 
         bombedPoints.lastOrNull()?.let {
             drawImage(
-                image = context.bitmapFromDrawableResource(resourceId = R.drawable.ic_plane, width = 60, height = 60),
+                image = context.bitmapFromDrawableResource(resourceId = R.drawable.ic_plane, width = PLAN_SIZE, height = PLAN_SIZE),
                 topLeft = planeOffset
             )
         }
@@ -261,6 +259,8 @@ fun RandomPolygonWithDimensions(
         )
     }
 }
+
+private const val PLAN_SIZE = 80
 
 private fun DrawScope.drawExplosionParticles(size: Float, numParticles: Int, center: Offset) {
     val particleColor = Color.Red

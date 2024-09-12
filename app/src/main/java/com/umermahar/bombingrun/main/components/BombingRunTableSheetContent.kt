@@ -23,6 +23,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
@@ -143,6 +144,7 @@ fun BombingRunTable(
                         modifier = Modifier.weight(1f),
                         textAlign = TextAlign.Center
                     )
+
                     Text(
                         text = stringResource(
                             id = when(bomb.result) {
@@ -157,6 +159,11 @@ fun BombingRunTable(
                                 onGuessBombClick(bomb, index)
                             },
                         textAlign = TextAlign.Center,
+                        color = when(bomb.result) {
+                            HIT -> Color.Green
+                            MISS -> Color.Red
+                            UNKNOWN -> Color.Unspecified
+                        },
                         style = if(bomb.isGuessedCorrect || bomb.result == UNKNOWN) {
                             LocalTextStyle.current
                         } else LocalTextStyle.current.copy(
